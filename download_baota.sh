@@ -11,7 +11,6 @@ else
     wget -P $DOWNLOAD_DIR http://download.bt.cn/install/update/LinuxPanel-$banben.zip
     rm -f $DOWNLOAD_DIR/宝塔最新版本-*
     # 在指定目录中创建文本文件并写入内容
-    echo "http://download.bt.cn/install/update/LinuxPanel-$banben.zip" > "$DOWNLOAD_DIR/宝塔最新版本-${RELEASE_DATE}.txt"
+    echo "http://download.bt.cn/install/update/LinuxPanel-$banben.zip" > "$DOWNLOAD_DIR/宝塔最新版本-\$RELEASE_DATE.txt"
     echo "http://download.bt.cn/install/update/LinuxPanel-$banben.zip" >> "$DOWNLOAD_DIR/宝塔历史版本.txt"
 fi
-
