@@ -33,7 +33,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
       with:
         tag_name: v${{ env.RELEASE_DATE }}
-        release_name: Release ${{ env.RELEASE_DATE }}
+        release_name: 魔方云安装文件 ${{ env.RELEASE_DATE }}
         draft: false
         prerelease: false
 
