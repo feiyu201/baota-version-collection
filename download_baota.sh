@@ -1,5 +1,4 @@
 #!/bin/bash
-cd "$(dirname "$0")"
 
 # 获取最新版本号
 banben=$(curl -s https://www.bt.cn/api/panel/get_version?is_version=1)
@@ -12,9 +11,10 @@ else
     wget -P $DOWNLOAD_DIR http://download.bt.cn/install/update/LinuxPanel-$banben.zip
     rm -f $DOWNLOAD_DIR/宝塔最新版本-*
     # 在指定目录中创建文本文件并写入内容
-    echo "http://download.bt.cn/install/update/LinuxPanel-$banben.zip" > "$DOWNLOAD_DIR/宝塔最新版本-\$RELEASE_DATE.txt"
+    echo "http://download.bt.cn/install/update/LinuxPanel-$banben.zip" > "$DOWNLOAD_DIR/宝塔最新版本-${RELEASE_DATE}.txt"
     echo "http://download.bt.cn/install/update/LinuxPanel-$banben.zip" >> "$DOWNLOAD_DIR/宝塔历史版本.txt"
-fi
 
-# 添加调试信息
-ls -l $DOWNLOAD_DIR
+    # 添加调试信息
+    ls -l $DOWNLOAD_DIR  # 检查下载目录中的文件
+    cat "$DOWNLOAD_DIR/宝塔最新版本-${RELEASE_DATE}.txt"  # 查看文件内容
+fi
