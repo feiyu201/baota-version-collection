@@ -53,9 +53,10 @@ jobs:
          GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
         with:
          upload_url: ${{ steps.create_release.outputs.upload_url }}
-         asset_path: /home/runner/bt_download/宝塔最新版本-${RELEASE_DATE}.txt
-         asset_name: 宝塔最新版本.txt
-         asset_content_type: text/plain
+         asset_path: $DOWNLOAD_DIR/LinuxPanel-${banben}.zip
+         asset_name: LinuxPanel-${banben}.zip
+         asset_content_type: application/zip
+
 
 
 
