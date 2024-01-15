@@ -1,0 +1,32 @@
+name: 下载并发布
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/5 * * * *' # 每隔5分钟触发一次
+
+jobs:
+  download_and_release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 检出仓库
+      uses: actions/checkout@v2
+
+    - name: 设置 Python 环境
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: 运行下载脚本
+      run: |
+        chmod +x download_and_release.sh
+        ./download_and_release.sh
+
+    - name: 创建 GitHub 发布
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{ env.RELEASE_PATH }}/release_*.tar.gz
+        body_path: ${{ env.RELEASE_PATH }}/release.txt
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
