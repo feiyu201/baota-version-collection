@@ -29,4 +29,4 @@ jobs:
         files: ${{ env.RELEASE_PATH }}/release_*.tar.gz
         body_path: ${{ env.RELEASE_PATH }}/release.txt
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
