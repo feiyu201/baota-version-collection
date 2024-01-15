@@ -42,13 +42,15 @@ jobs:
           release_name: 宝塔 ${{ env.RELEASE_DATE }}
           draft: false
           prerelease: false
-
+      - name: 显示环境变量
+        run: echo "DOWNLOAD_DIR=${DOWNLOAD_DIR}, RELEASE_DATE=${RELEASE_DATE}"
       - name: 上传文件到 GitHub Release
         uses: actions/upload-release-asset@v1
         env:
          GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
         with:
          upload_url: ${{ steps.create_release.outputs.upload_url }}
-         asset_path: ${{ env.DOWNLOAD_DIR }}/宝塔最新版本-${RELEASE_DATE}.txt
+         asset_path: ${{ env.DOWNLOAD_DIR }}/宝塔最新版本-${{ env.RELEASE_DATE }}.txt
          asset_name: 宝塔最新版本.txt
          asset_content_type: text/plain
+     
