@@ -14,20 +14,16 @@ jobs:
 
       - name: 下载文件并创建Release
         run: |
-          # 覆盖之前的下载脚本
           echo '#!/bin/bash' > download.sh
           echo 'files=(' >> download.sh
           echo '  "/cloud/packages/c8/tar-1.30-6.el8.x86_64.rpm"' >> download.sh
           echo '  "/cloud/packages/c8/rpms-master.tar.gz"' >> download.sh
           # 添加其他文件...
           echo ')' >> download.sh
-          echo '# 定义要保存到的目录' >> download.sh
           echo 'dest_dir="/downloads"' >> download.sh
-          echo '# 创建保存目录' >> download.sh
           echo 'mkdir -p "$dest_dir/cloud/packages/c8"' >> download.sh
           echo 'mkdir -p "$dest_dir/cloud/packages/rpms"' >> download.sh
           # 添加其他目录...
-          echo '# 遍历文件列表，逐个下载文件' >> download.sh
           echo 'for file in "${files[@]}"' >> download.sh
           echo 'do' >> download.sh 
           echo '  echo "Downloading $file ..."' >> download.sh
@@ -35,10 +31,9 @@ jobs:
           echo '  mkdir -p "$dest_dir$file_dir"' >> download.sh
           echo '  wget -P "$dest_dir$file_dir" "http://mirror.cloud.idcsmart.com$file"' >> download.sh
           echo 'done' >> download.sh
-          # 上传文件到Releases
-          echo 'echo "Creating release..."'
-          echo 'tag=$(date +'%Y%m%d%H%M%S')'
-          echo 'gh release create "$tag" $dest_dir/* --title "Auto-generated Release $tag"'
+          echo 'echo "Creating release..."' >> download.sh
+          echo 'tag=$(date +"%Y%m%d%H%M%S")' >> download.sh
+          echo 'gh release create "$tag" $dest_dir/* --title "Auto-generated Release $tag"' >> download.sh
           
           chmod +x download.sh
           ./download.sh
