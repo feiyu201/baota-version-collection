@@ -1,0 +1,51 @@
+name: 上传宝塔最新版本
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 */7 * *' # 每隔7天触发一次
+
+jobs:
+  upload_baota_version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v2
+
+      - name: 设置 Python 环境
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: 设置下载目录环境变量
+        run: echo "DOWNLOAD_DIR=$HOME/bt_download" >> $GITHUB_ENV
+
+      - name: 运行下载脚本
+        run: |
+          chmod +x download_baota.sh
+          ./download_baota.sh
+
+      - name: 传递日期变量
+        run: echo "RELEASE_DATE=$(date +'%Y%m%d%H%M')" >> $GITHUB_ENV
+
+      - name: 创建 GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.RELEASE_DATE }}
+          release_name: Release ${{ env.RELEASE_DATE }}
+          draft: false
+          prerelease: false
+
+      - name: 上传文件到 GitHub Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.inputs.upload_url }}
+          asset_path: $DOWNLOAD_DIR/宝塔最新版本-${{ env.RELEASE_DATE }}.txt
+          asset_name: 宝塔最新版本.txt
+          asset_content_type: text/plain
