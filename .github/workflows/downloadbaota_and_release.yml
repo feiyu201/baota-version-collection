@@ -46,9 +46,10 @@ jobs:
       - name: 上传文件到 GitHub Release
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
+         GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: $DOWNLOAD_DIR/宝塔最新版本-\$RELEASE_DATE.txt
-          asset_name: 宝塔最新版本.txt
-          asset_content_type: text/plain
+         upload_url: ${{ steps.create_release.outputs.upload_url }}
+         asset_path: $DOWNLOAD_DIR/宝塔最新版本-${{ env.RELEASE_DATE }}.txt
+         asset_name: 宝塔最新版本.txt
+         asset_content_type: text/plain
+
