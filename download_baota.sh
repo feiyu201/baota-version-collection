@@ -17,5 +17,6 @@ else
 
     # 添加调试信息
     ls -l $DOWNLOAD_DIR  # 检查下载目录中的文件
-    cat "$DOWNLOAD_DIR/宝塔最新版本-${RELEASE_DATE}.txt"  # 查看文件内容
+    cat "$DOWNLOAD_DIR/宝塔最新版本-${banben}.txt"
+
 fi
