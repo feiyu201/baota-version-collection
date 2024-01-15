@@ -33,6 +33,9 @@ jobs:
 
     - name: 推送标签
       run: git push origin v${{ github.run_number }}
+      env:
+           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+
 
     - name: 创建 GitHub 发布
       uses: softprops/action-gh-release@v1
