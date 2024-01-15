@@ -30,15 +30,17 @@ jobs:
           ./download_baota.sh
 
       - name: 传递日期变量
-        run: echo "RELEASE_DATE=$(date +'%Y年%m月%d日%H时%M分%S秒')" >> $GITHUB_ENV
-
+        run: echo "RELEASE_DATE=$(TZ='Asia/Shanghai' date +'%Y年%m月%d日%H时%M分%S秒')" >> $GITHUB_ENV
+    
+      - name: 传递日期变量版本
+        run: echo "RELEASE_DATE1=$(TZ='Asia/Shanghai' date +'%Y%m%d%H%M')" >> "$GITHUB_ENV"
       - name: 创建 GitHub Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
         with:
-          tag_name: v${{ env.RELEASE_DATE }}
+          tag_name: v${{ env.RELEASE_DATE1 }}
           release_name: 宝塔 ${{ env.RELEASE_DATE }}
           draft: false
           prerelease: false
