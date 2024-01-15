@@ -51,10 +51,12 @@ jobs:
         uses: actions/upload-release-asset@v1
         env:
          GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
+         DOWNLOAD_DIR: ${{ env.DOWNLOAD_DIR }}
+         BANBEN: ${{ env.BANBEN }}
         with:
          upload_url: ${{ steps.create_release.outputs.upload_url }}
-         asset_path: $DOWNLOAD_DIR/LinuxPanel-${banben}.zip
-         asset_name: LinuxPanel-${banben}.zip
+         asset_path: ${{ env.DOWNLOAD_DIR }}/LinuxPanel-${{ env.BANBEN }}.zip
+         asset_name: LinuxPanel-${{ env.BANBEN }}.zip
          asset_content_type: application/zip
 
 
