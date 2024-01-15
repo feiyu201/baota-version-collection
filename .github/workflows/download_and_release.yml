@@ -3,7 +3,7 @@ name: 上传文件到 GitHub Releases
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 */7 * *' # 每隔7天触发一次
+    - cron: '*/5 * * * *' # 每隔5分钟触发一次
 
 jobs:
   upload_to_release:
@@ -36,8 +36,6 @@ jobs:
         release_name: Release ${{ env.RELEASE_DATE }}
         draft: false
         prerelease: false
-    - name: 传递日期变量
-      run: echo "RELEASE_DATE=${{ env.current_date }}" >> $GITHUB_ENV
 
     - name: 上传文件到 GitHub Release
       uses: actions/upload-release-asset@v1
