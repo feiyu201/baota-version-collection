@@ -34,7 +34,7 @@ jobs:
     - name: 推送标签
       run: git push origin v${{ github.run_number }}
       env:
-           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+           GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
 
 
     - name: 创建 GitHub 发布
@@ -44,4 +44,4 @@ jobs:
         body_path: ${{ env.RELEASE_PATH }}/release.txt
         ref: ${{ github.ref }}
       env:
-        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
