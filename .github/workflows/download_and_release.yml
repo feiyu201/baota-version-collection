@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '*/5 * * * *' # 每隔5分钟触发一次
-
+permissions:
+  contents: write
 jobs:
   download_and_release:
     runs-on: ubuntu-latest
