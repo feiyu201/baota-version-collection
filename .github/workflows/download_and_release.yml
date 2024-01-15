@@ -23,6 +23,17 @@ jobs:
         chmod +x download_and_release.sh
         ./download_and_release.sh
 
+    - name: 设置 Git 配置
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+
+    - name: 创建标签
+      run: git tag -a v${{ github.run_number }} -m "Release ${{ github.run_number }}"
+
+    - name: 推送标签
+      run: git push origin v${{ github.run_number }}
+
     - name: 创建 GitHub 发布
       uses: softprops/action-gh-release@v1
       with:
