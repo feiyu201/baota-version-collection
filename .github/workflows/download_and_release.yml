@@ -1,11 +1,12 @@
-name: 下载并发布
+name: 上传文件到 GitHub Releases
 
 on:
   workflow_dispatch:
   schedule:
     - cron: '*/5 * * * *' # 每隔5分钟触发一次
+
 jobs:
-  download_and_release:
+  upload_to_release:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,25 +23,23 @@ jobs:
         chmod +x download_and_release.sh
         ./download_and_release.sh
 
-    - name: 设置 Git 配置
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-
-    - name: 创建标签
-      run: git tag -a v${{ github.run_number }} -m "Release ${{ github.run_number }}"
-
-    - name: 推送标签
-      run: git push origin v${{ github.run_number }}
+    - name: 创建 GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
       env:
-           GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
-
-
-    - name: 创建 GitHub 发布
-      uses: softprops/action-gh-release@v1
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        files: ${{ env.RELEASE_PATH }}/release_*.tar.gz
-        body_path: ${{ env.RELEASE_PATH }}/release.txt
-        ref: ${{ github.ref }}
+        tag_name: v${{ github.sha }}
+        release_name: Release ${{ github.sha }}
+        draft: false
+        prerelease: false
+
+    - name: 上传文件到 GitHub Release
+      uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ env.RELEASE_PATH }}/release_*.tar.gz
+        asset_name: release.tar.gz
+        asset_content_type: application/gzip
