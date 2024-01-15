@@ -1,4 +1,5 @@
 #!/bin/bash
+cd "$(dirname "$0")"
 
 # 获取最新版本号
 banben=$(curl -s https://www.bt.cn/api/panel/get_version?is_version=1)
