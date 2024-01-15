@@ -3,7 +3,7 @@ name: 上传宝塔最新版本
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 */7 * *' # 每隔7天触发一次
+    - cron: '0 0 */1 * *' # 每隔7天触发一次
 
 jobs:
   upload_baota_version:
