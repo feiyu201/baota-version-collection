@@ -14,3 +14,6 @@ else
     echo "http://download.bt.cn/install/update/LinuxPanel-$banben.zip" > "$DOWNLOAD_DIR/宝塔最新版本-\$RELEASE_DATE.txt"
     echo "http://download.bt.cn/install/update/LinuxPanel-$banben.zip" >> "$DOWNLOAD_DIR/宝塔历史版本.txt"
 fi
+
+# 添加调试信息
+ls -l $DOWNLOAD_DIR
