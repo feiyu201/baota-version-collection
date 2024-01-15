@@ -20,3 +20,5 @@ else
     cat "$DOWNLOAD_DIR/宝塔最新版本-${banben}.txt"
 
 fi
+echo "BANBEN=$banben" >> "$GITHUB_ENV"
+
