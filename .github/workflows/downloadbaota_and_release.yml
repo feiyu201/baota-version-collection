@@ -41,7 +41,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
         with:
           tag_name: v${{ env.RELEASE_DATE1 }}
-          release_name: 宝塔版本集合
+          release_name: 宝塔${{ env.RELEASE_DATE }}
           draft: false
           prerelease: false
    
