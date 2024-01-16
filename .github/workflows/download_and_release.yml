@@ -1,4 +1,4 @@
-name: 上传文件到 GitHub Releases
+name: 上传魔方文件到 GitHub Releases
 
 on:
   workflow_dispatch:
