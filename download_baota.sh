@@ -2,7 +2,7 @@
 
 # 获取最新版本号
 banben=$(curl -s https://www.bt.cn/api/panel/get_version?is_version=1)
-banben='7.9.9'
+#banben='7.9.9'
 # 判断是否存在对应的安装包
 if [ -f "$DOWNLOAD_DIR/LinuxPanel-$banben.zip" ]; then
     echo "File $DOWNLOAD_DIR/LinuxPanel-$banben.zip already exists."
