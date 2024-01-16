@@ -41,8 +41,8 @@ jobs:
         env:
              GITHUB_TOKEN: ${{ secrets.MY1_GITHUB_TOKEN }}
         with:
-             tag_name: v1.0.0  # 选择一个新的版本号
-             release_name: 宝塔版本文件
+             tag_name: v${{ env.RELEASE_DATE1 }}  # 选择一个新的版本号
+             release_name: 宝塔版本下载日期${{ env.RELEASE_DATE }}
              draft: false
              prerelease: false
              update: true  # 使用 update 选项更新已存在的发布
