@@ -55,4 +55,4 @@ tar -zcvf "$dest_dir/release_$current_date.tar.gz" -C "$dest_dir" .
 echo "RELEASE_PATH=$dest_dir" > "$dest_dir/release.txt"
 echo "FILE_DATE=_$current_date" >> "$dest_dir/release.txt"
 
-echo "All files have been downloaded and packaged successfully!"
+echo "All files have been downloaded and packaged successfully!" 参考这个
