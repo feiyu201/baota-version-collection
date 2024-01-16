@@ -20,8 +20,8 @@ jobs:
 
     - name: 运行下载脚本
       run: |
-        chmod +x download_and_release.sh
-        ./download_and_release.sh
+        chmod +x download_mofang.sh
+        ./download_mofang.sh
     - name: 传递日期变量
       run: echo "RELEASE_DATE=$(date +'%Y%m%d%H%M')" >> $GITHUB_ENV
 
