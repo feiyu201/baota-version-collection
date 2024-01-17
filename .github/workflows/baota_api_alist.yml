@@ -40,4 +40,4 @@ jobs:
           -H "Content-Type: application/json;charset=UTF-8" \
           -H "Authorization: ${{ secrets.API_AUTH_TOKEN }}" \
           -d "$payload" \
-          ${{ secrets.URL }}
+          ${{ secrets.API_URL }}
