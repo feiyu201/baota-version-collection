@@ -1,0 +1,42 @@
+name: 自动每天查询宝塔版本并且执行上传
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 定时每天执行
+
+jobs:
+  update_bt_panel:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install requests
+
+    - name: Get latest version
+      run: |
+        banben=$(curl -s ${{ secrets.API_URL }})
+        echo "Latest version: $banben"
+
+    - name: Add offline download
+      run: |
+        path="/Cloud_disk/自动保存宝塔版本"
+        url="http://download.bt.cn/install/update/LinuxPanel-$banben.zip"
+        tool="aria2"
+        delete_policy="delete_on_upload_succeed"
+
+        payload="{\"path\":\"$path\",\"urls\":[\"$url\"],\"tool\":\"$tool\",\"delete_policy\":\"$delete_policy\"}"
+
+        curl -X POST \
+          -H "Content-Type: application/json;charset=UTF-8" \
+          -H "Authorization: ${{ secrets.API_AUTH_TOKEN }}" \
+          -d "$payload" \
+          https://cp.123456.ai/api/fs/add_offline_download
