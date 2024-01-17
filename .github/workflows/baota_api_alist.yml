@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: 检出仓库
       uses: actions/checkout@v2
 
     - name: 设置 Python
@@ -18,14 +18,14 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: 安装环境
+    - name: 安装依赖
       run: |
         pip install requests
 
     - name: 获取最新版的宝塔版本号
       run: |
         banben=$(curl -s https://www.bt.cn/api/panel/get_version?is_version=1)
-        echo "Latest version: $banben"
+        echo "最新版本: $banben"
 
     - name: 上传到API网站
       run: |
@@ -40,4 +40,4 @@ jobs:
           -H "Content-Type: application/json;charset=UTF-8" \
           -H "Authorization: ${{ secrets.API_AUTH_TOKEN }}" \
           -d "$payload" \
-          ${{ secrets.API_URL }}
+          "${{ secrets.API_URL }}"
