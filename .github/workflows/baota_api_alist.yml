@@ -1,9 +1,9 @@
-name: 自动每天查询宝塔版本并且执行上传
+name: Auto Update Bt-Panel
 
 on:
-  workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'  # 定时每天执行
+  workflow_dispatch:  # 手动触发
 
 jobs:
   update_bt_panel:
@@ -24,7 +24,7 @@ jobs:
 
     - name: Get latest version
       run: |
-        banben=$(curl -s ${{ secrets.API_URL }})
+        banben=$(curl -s https://www.bt.cn/api/panel/get_version?is_version=1)
         echo "Latest version: $banben"
 
     - name: Add offline download
@@ -40,4 +40,4 @@ jobs:
           -H "Content-Type: application/json;charset=UTF-8" \
           -H "Authorization: ${{ secrets.API_AUTH_TOKEN }}" \
           -d "$payload" \
-          https://cp.123456.ai/api/fs/add_offline_download
+          ${{ secrets.URL }}
