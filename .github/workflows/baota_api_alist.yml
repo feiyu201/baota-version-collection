@@ -1,6 +1,7 @@
 name: 自动每天查询宝塔版本并且执行上传
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'  # 定时每天执行
 
