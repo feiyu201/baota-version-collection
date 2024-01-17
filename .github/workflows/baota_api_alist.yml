@@ -1,4 +1,4 @@
-name: Auto Update Bt-Panel
+name: 自动/手动自动每天获取最新版宝塔上传到API
 
 on:
   schedule:
@@ -30,7 +30,7 @@ jobs:
     - name: Add offline download
       run: |
         path="/Cloud_disk/自动保存宝塔版本"
-        url="http://download.bt.cn/install/update/LinuxPanel-$banben.zip"
+        url="http://download.bt.cn/install/update/LinuxPanel-${banben}.zip"
         tool="aria2"
         delete_policy="delete_on_upload_succeed"
 
