@@ -23,14 +23,15 @@ jobs:
         pip install requests
 
     - name: 获取最新版的宝塔版本号
+      id: get_version
       run: |
-        banben=$(curl -s https://www.bt.cn/api/panel/get_version?is_version=1)
-        echo "最新版本: $banben"
+        echo "banben=$(curl -s https://www.bt.cn/api/panel/get_version?is_version=1)" >> $GITHUB_ENV
 
     - name: 上传到API网站
       run: |
+        source $GITHUB_ENV
         path="/Cloud_disk/自动保存宝塔版本"
-        url="http://download.bt.cn/install/update/LinuxPanel-${{ banben }}.zip"
+        url="http://download.bt.cn/install/update/LinuxPanel-${banben}.zip"
         tool="aria2"
         delete_policy="delete_on_upload_succeed"
 
