@@ -13,24 +13,24 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Python
+    - name: 设置 Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
 
-    - name: Install dependencies
+    - name: 安装环境
       run: |
         pip install requests
 
-    - name: Get latest version
+    - name: 获取最新版的宝塔版本号
       run: |
         banben=$(curl -s https://www.bt.cn/api/panel/get_version?is_version=1)
         echo "Latest version: $banben"
 
-    - name: Add offline download
+    - name: 上传到API网站
       run: |
         path="/Cloud_disk/自动保存宝塔版本"
-        url="http://download.bt.cn/install/update/LinuxPanel-${banben}.zip"
+        url="http://download.bt.cn/install/update/LinuxPanel-${{ banben }}.zip"
         tool="aria2"
         delete_policy="delete_on_upload_succeed"
 
