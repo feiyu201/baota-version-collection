@@ -42,9 +42,4 @@ jobs:
           -H "Authorization: ${{ secrets.API_AUTH_TOKEN }}" \
           -d "$payload" \
           "${{ secrets.API_URL }}"
-        curl -X POST \
-          -H "Content-Type: application/json;charset=UTF-8" \
-          -H "Authorization: ${{ secrets.API1_AUTH_TOKEN }}" \
-          -d "$payload" \
-          "${{ secrets.API1_URL }}"
 
