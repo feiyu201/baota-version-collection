@@ -1,45 +1,63 @@
-name: 自动/手动自动每天获取最新版宝塔上传到API
+name: Check Baota Update
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # 定时每天执行
-  workflow_dispatch:  # 手动触发
+    - cron: '0 */8 * * *'  # 每8小时执行一次
+  workflow_dispatch:
 
 jobs:
-  update_bt_panel:
+  check-and-release:
     runs-on: ubuntu-latest
-
     steps:
-    - name: 检出仓库
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      
+      # 首先获取最新的 Release 信息
+      - name: Get Latest Release
+        id: latest_release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            try {
+              const release = await github.rest.repos.getLatestRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo
+              });
+              return release.data.tag_name;
+            } catch (e) {
+              return '';  // 如果没有 release 返回空字符串
+            }
 
-    - name: 设置 Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      # 获取宝塔最新版本
+      - name: Get Baota Version
+        id: baota_version
+        run: |
+          # 你的获取宝塔版本的代码
+          VERSION="获取到的版本号"
+          echo "::set-output name=version::$VERSION"
 
-    - name: 安装依赖
-      run: |
-        pip install requests
-
-    - name: 获取最新版的宝塔版本号
-      id: get_version
-      run: |
-        echo "banben=$(curl -s https://www.bt.cn/api/panel/get_version?is_version=1)" >> $GITHUB_ENV
-
-    - name: 上传到API网站
-      run: |
-        source $GITHUB_ENV
-        path="/Cloud_disk/自动保存宝塔版本"
-        url="http://download.bt.cn/install/update/LinuxPanel-${banben}.zip"
-        tool="aria2"
-        delete_policy="delete_on_upload_succeed"
-
-        payload="{\"path\":\"$path\",\"urls\":[\"$url\"],\"tool\":\"$tool\",\"delete_policy\":\"$delete_policy\"}"
-
-        curl -X POST \
-          -H "Content-Type: application/json;charset=UTF-8" \
-          -H "Authorization: ${{ secrets.API_AUTH_TOKEN }}" \
-          -d "$payload" \
-          "${{ secrets.API_URL }}"
+      # 比较版本并决定是否创建新的 Release
+      - name: Compare and Create Release
+        if: steps.latest_release.outputs.result != steps.baota_version.outputs.version
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const version = '${{ steps.baota_version.outputs.version }}';
+            const releaseExists = await github.rest.repos.listReleases({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            }).then(response => 
+              response.data.some(release => release.tag_name === version)
+            );
+            
+            if (!releaseExists) {
+              await github.rest.repos.createRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: version,
+                name: `Release ${version}`,
+                body: 'Automated release for Baota version ' + version,
+                draft: false,
+                prerelease: false
+              });
+            }
 
